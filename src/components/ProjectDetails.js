@@ -1,3 +1,5 @@
+import { currencyFormatter } from "../utility/currencyFormatter";
+
 const ProjectDetails = ({ project }) => {
   return (
     <div className="project  bg-slate-800 p-5 rounded-xl shadow-xl border border-slate-700 flex flex-col gap-5 w-[25rem]">
@@ -13,14 +15,21 @@ const ProjectDetails = ({ project }) => {
 
       <div className="mid text-slate-300 flex gap-10">
         <div className="left flex flex-col">
-          <span>Budget:</span>
-          <span>Added on:</span>
-          <span>Last updated:</span>
+          <span>Budget: {currencyFormatter(project.budget)}</span>
+          <span>
+            Added on: {new Date(project.createdAt).toLocaleDateString()}
+          </span>
+          <span>
+            Last updated: {new Date(project.updatedAt).toLocaleDateString()}
+          </span>
         </div>
         <div className="right flex flex-col">
-          <span>Manager: </span>
-          <span>Developers: </span>
-          <span>Duration:</span>
+          <span>Manager: {project.manager}</span>
+          <span>Developers: {project.dev}</span>
+          <span>
+            Duration:{" "}
+            {`${project.duration} week${project.duration === 1 ? "" : "s"}`}
+          </span>
         </div>
       </div>
 
