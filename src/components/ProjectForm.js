@@ -72,6 +72,8 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
         setError(null);
         setEmptyFields([]);
 
+        dispatch({ type: "UPDATED_PROJECT", payload: json });
+
         setOverlay(false);
         setModal(false);
       }
