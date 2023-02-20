@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useProjectsContext } from "../hooks/useProjectsContext";
 import { currencyFormatter } from "../utility/currencyFormatter";
 import moment from "moment";
+import ProjectForm from "./ProjectForm";
 
 const ProjectDetails = ({ project }) => {
   const [overlay, setOverlay] = useState(false);
@@ -24,7 +25,7 @@ const ProjectDetails = ({ project }) => {
     }
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = () => {
     setOverlay(true);
     setModal(true);
   };
@@ -88,6 +89,23 @@ const ProjectDetails = ({ project }) => {
           overlay ? "" : "hidden"
         }`}
       ></div>
+
+      {/* Modal */}
+
+      <div
+        className={`modal w-[30rem] fixed  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2] bg-slate-800 py-8 px-10 rounded-xl shadow-xl border border-slate-700   ${
+          modal ? "" : "hidden"
+        }`}
+      >
+        <h2 className="text-3xl font-medium text-sky-400 mb-4">
+          Update Project
+        </h2>{" "}
+        <ProjectForm
+          project={project}
+          setOverlay={setOverlay}
+          setModal={setModal}
+        />
+      </div>
     </div>
   );
 };
