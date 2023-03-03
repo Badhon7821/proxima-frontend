@@ -54,15 +54,18 @@ const Signup = () => {
       </div>
 
       <button
+        disabled={loading}
         type="submit"
         className="bg-sky-400 text-slate-900 py-3 rounded-xl hover:bg-sky-500 duration-300 mt-3"
       >
         Sign up
       </button>
 
-      <p className="bg-rose-500/20 rounded-lg p-5 text-rose-500 border border-rose-500">
-        error
-      </p>
+      {error && (
+        <p className="bg-rose-500/20 rounded-lg p-5 text-rose-500 border border-rose-500">
+          {error}
+        </p>
+      )}
     </form>
   );
 };
