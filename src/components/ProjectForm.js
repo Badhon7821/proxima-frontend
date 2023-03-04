@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useProjectsContext } from "../hooks/useProjectsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const ProjectForm = ({ project, setOverlay, setModal }) => {
   const [title, setTitle] = useState(project ? project.title : "");
@@ -11,10 +12,16 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
+  const { user } = useAuthContext();
   const { dispatch } = useProjectsContext();
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      setError("You must loged in!");
+      return;
+    }
 
     //project
     const projectObj = { title, tech, budget, duration, manager, dev };
@@ -26,6 +33,7 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(projectObj),
       });
@@ -57,6 +65,7 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
           },
           body: JSON.stringify(projectObj),
         }
@@ -107,7 +116,7 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
           placeholder="e.g. e-commerce website"
           id="title"
           className={`bg-transparent border  px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("title")
+            emptyFields?.includes("title")
               ? "border-rose-500"
               : "border-slate-500"
           } ${project ? "py-2" : "py-3 "}`}
@@ -128,7 +137,7 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
           placeholder="e.g. node.js, react, redux etc."
           id="tech"
           className={`bg-transparent border  px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("tech")
+            emptyFields?.includes("tech")
               ? "border-rose-500"
               : "border-slate-500"
           } ${project ? "py-2" : "py-3 "}`}
@@ -149,7 +158,7 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
           placeholder="e.g. 500"
           id="budget"
           className={`bg-transparent border   px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("budget")
+            emptyFields?.includes("budget")
               ? "border-rose-500"
               : "border-slate-500"
           } ${project ? "py-2" : "py-3 "}`}
@@ -170,7 +179,7 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
           placeholder="e.g. e-commerce website"
           id="duration"
           className={`bg-transparent border  px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("duration")
+            emptyFields?.includes("duration")
               ? "border-rose-500"
               : "border-slate-500"
           } ${project ? "py-2" : "py-3 "}`}
@@ -191,7 +200,7 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
           placeholder="e.g. natasha"
           id="manager"
           className={`bg-transparent border   px-5 rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("manager")
+            emptyFields?.includes("manager")
               ? "border-rose-500"
               : "border-slate-500"
           } ${project ? "py-2" : "py-3 "}`}
@@ -212,7 +221,9 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
           placeholder="e.g. 5"
           id="dev"
           className={`bg-transparent border px-5  rounded-lg outline-none focus:border-sky-400 duration-300 ${
-            emptyFields.includes("dev") ? "border-rose-500" : "border-slate-500"
+            emptyFields?.includes("dev")
+              ? "border-rose-500"
+              : "border-slate-500"
           } ${project ? "py-2" : "py-3 "}`}
         />
       </div>
