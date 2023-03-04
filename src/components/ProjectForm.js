@@ -29,14 +29,17 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
     //post req
 
     if (!project) {
-      const res = await fetch("http://localHost:5000/api/projects", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify(projectObj),
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/api/projects`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify(projectObj),
+        }
+      );
       const json = await res.json();
 
       if (!res.ok) {
@@ -60,7 +63,7 @@ const ProjectForm = ({ project, setOverlay, setModal }) => {
 
     if (project) {
       const res = await fetch(
-        `http://localHost:5000/api/projects/${project._id}`,
+        `${process.env.REACT_APP_BASE_URL}/api/projects/${project._id}`,
         {
           method: "PATCH",
           headers: {

@@ -15,23 +15,11 @@ const App = () => {
         <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
         <Route
           path="/login"
-          element={
-            !user ? (
-              <Login loginTimeFooter={"loginTimeFooter"} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
+          element={!user ? <Login /> : <Navigate to="/" />}
         />
         <Route
           path="/signup"
-          element={
-            !user ? (
-              <Signup loginTimeFooter={"loginTimeFooter"} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
+          element={!user ? <Signup /> : <Navigate to="/" />}
         />
 
         <Route path="*" element={<Navigate to="/" />} />
